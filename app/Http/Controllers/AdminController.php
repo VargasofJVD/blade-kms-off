@@ -193,6 +193,47 @@ class AdminController extends Controller
         return redirect()->route('admin.gallery')->with('success', 'Gallery created successfully!');
     }
 
+    public function editGallery(Gallery $gallery)
+    {
+        return view('admin.gallery.edit', compact('gallery'));
+    }
+
+    public function updateGallery(Request $request, Gallery $gallery)
+    {
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'nullable',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $gallery->update([
+            'title' => $request->title,
+            'description' => $request->description
+        ]);
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('gallery', 'public');
+                $gallery->images()->create(['path' => $imagePath]);
+            }
+        }
+
+        return redirect()->route('admin.gallery')->with('success', 'Gallery updated successfully!');
+    }
+
+    public function deleteGallery(Gallery $gallery)
+    {
+        // Delete associated images
+        foreach ($gallery->images as $image) {
+            Storage::disk('public')->delete($image->path);
+            $image->delete();
+        }
+
+        $gallery->delete();
+
+        return redirect()->route('admin.gallery')->with('success', 'Gallery deleted successfully!');
+    }
+
     // Admissions Management
     public function admissions()
     {
@@ -258,5 +299,50 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.students')->with('success', 'Student created successfully!');
+    }
+
+    public function editStudent(Student $student)
+    {
+        return view('admin.students.edit', compact('student'));
+    }
+
+    public function updateStudent(Request $request, Student $student)
+    {
+        $request->validate([
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'date_of_birth' => 'required|date',
+            'gender' => 'required|in:male,female',
+            'class' => 'required|max:255',
+            'guardian_name' => 'required|max:255',
+            'guardian_phone' => 'required|max:255',
+            'guardian_email' => 'nullable|email|max:255',
+            'address' => 'required|max:500'
+        ]);
+
+        $student->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'date_of_birth' => $request->date_of_birth,
+            'gender' => $request->gender,
+            'class' => $request->class,
+            'address' => $request->address
+        ]);
+
+        $student->guardian()->update([
+            'name' => $request->guardian_name,
+            'phone' => $request->guardian_phone,
+            'email' => $request->guardian_email
+        ]);
+
+        return redirect()->route('admin.students')->with('success', 'Student updated successfully!');
+    }
+
+    public function deleteStudent(Student $student)
+    {
+        $student->guardian()->delete();
+        $student->delete();
+
+        return redirect()->route('admin.students')->with('success', 'Student deleted successfully!');
     }
 }

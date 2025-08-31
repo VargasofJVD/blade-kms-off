@@ -39,6 +39,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/gallery', [AdminController::class, 'gallery'])->name('gallery');
     Route::get('/gallery/create', [AdminController::class, 'createGallery'])->name('gallery.create');
     Route::post('/gallery', [AdminController::class, 'storeGallery'])->name('gallery.store');
+    Route::get('/gallery/{gallery}/edit', [AdminController::class, 'editGallery'])->name('gallery.edit');
+    Route::put('/gallery/{gallery}', [AdminController::class, 'updateGallery'])->name('gallery.update');
+    Route::delete('/gallery/{gallery}', [AdminController::class, 'deleteGallery'])->name('gallery.delete');
     
     // Admissions Management
     Route::get('/admissions', [AdminController::class, 'admissions'])->name('admissions');
@@ -49,6 +52,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/students', [AdminController::class, 'students'])->name('students');
     Route::get('/students/create', [AdminController::class, 'createStudent'])->name('students.create');
     Route::post('/students', [AdminController::class, 'storeStudent'])->name('students.store');
+    Route::get('/students/{student}/edit', [AdminController::class, 'editStudent'])->name('students.edit');
+    Route::put('/students/{student}', [AdminController::class, 'updateStudent'])->name('students.update');
+    Route::delete('/students/{student}', [AdminController::class, 'deleteStudent'])->name('students.delete');
 });
 
 // Authentication Routes
