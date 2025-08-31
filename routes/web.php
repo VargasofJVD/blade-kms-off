@@ -51,15 +51,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('/students', [AdminController::class, 'storeStudent'])->name('students.store');
 });
 
-// Authentication Routes (you can use Laravel Breeze or Jetstream)
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-Route::post('/login', function () {
-    // Login logic here
-})->name('login.post');
-
-Route::post('/logout', function () {
-    // Logout logic here
-})->name('logout');
+// Authentication Routes
+Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login.post');
+Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
