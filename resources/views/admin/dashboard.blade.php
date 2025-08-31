@@ -105,7 +105,7 @@
                 <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
                     <div>
                         <p class="font-medium text-gray-900">{{ $news->title }}</p>
-                        <p class="text-sm text-gray-600">{{ $news->published_at->format('M j, Y') }}</p>
+                        <p class="text-sm text-gray-600">{{ $news->created_at->format('M j, Y') }}</p>
                     </div>
                     <a href="{{ route('admin.news.edit', $news) }}" class="text-blue-600 hover:text-blue-800 text-sm">Edit</a>
                 </div>

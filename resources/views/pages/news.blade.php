@@ -16,11 +16,16 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($news as $article)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all">
+                    @if($article->image)
+                    <div class="aspect-w-16 aspect-h-9">
+                        <img src="{{ $article->image_url }}" alt="{{ $article->title }}" class="w-full h-48 object-cover">
+                    </div>
+                    @endif
                     <div class="p-6">
                         <h3 class="text-xl font-semibold text-gray-900 mb-3">{{ $article->title }}</h3>
                         <p class="text-gray-600 mb-4">{{ $article->excerpt }}</p>
                         <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-500">{{ $article->published_at->format('M j, Y') }}</span>
+                            <span class="text-sm text-gray-500">{{ $article->created_at->format('M j, Y') }}</span>
                             <a href="#" class="text-montessori-blue hover:text-montessori-blue-light font-semibold">Read More</a>
                         </div>
                     </div>

@@ -17,8 +17,8 @@
                 @foreach($galleries as $gallery)
                 <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all">
                     <div class="aspect-w-16 aspect-h-9 bg-gray-200">
-                        @if($gallery->coverImage)
-                            <img src="{{ $gallery->coverImage->image_url }}" alt="{{ $gallery->title }}" class="w-full h-48 object-cover">
+                        @if($gallery->cover_image)
+                            <img src="{{ asset('storage/' . $gallery->cover_image->path) }}" alt="{{ $gallery->title }}" class="w-full h-48 object-cover">
                         @else
                             <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
                                 <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
